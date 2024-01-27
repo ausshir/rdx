@@ -14,35 +14,35 @@ document.getElementById('subscribed').innerHTML = subslisted;
 }
 
 
-if(localStorage.getItem('color') == 'dark'){
-toggletheme('dark');
-}
-else {}
-
-function toggletheme(color){
-if(color == 'dark'){
-	
-	document.getElementById('cthemew').innerHTML = '<a onclick="toggletheme(\'light\')" id="themebtn">Light mode</a>';
-document.documentElement.style.setProperty('--bodyc', '#111222');
-document.documentElement.style.setProperty('--textc', 'white');
-document.documentElement.style.setProperty('--linkc', '#d9d983');
-document.documentElement.style.setProperty('--greyc', '#222233');
-document.documentElement.style.setProperty('--lightc', '#ddd');
-localStorage.setItem('color','dark');
+function toggletheme(){
+const curtheme = localStorage.getItem('tname') || "default";
+if(curtheme != 'default' && curtheme != 'Default'){
+	document.documentElement.style.setProperty('--bodyc', localStorage.getItem('bodyc'));
+document.documentElement.style.setProperty('--textc',  localStorage.getItem('textc'));
+document.documentElement.style.setProperty('--linkc',  localStorage.getItem('linkc'));
+document.documentElement.style.setProperty('--greyc',  localStorage.getItem('greyc'));
+document.documentElement.style.setProperty('--lightc', localStorage.getItem('lightc'));
 }
 else {
-	
-		document.getElementById('cthemew').innerHTML = '<a onclick="toggletheme(\'dark\')" id="themebtn">Dark mode</a>';
 document.documentElement.style.setProperty('--bodyc', 'white');
 document.documentElement.style.setProperty('--textc', 'black');
 document.documentElement.style.setProperty('--linkc', '#27598c');
 document.documentElement.style.setProperty('--greyc', '#eee');
 document.documentElement.style.setProperty('--lightc', '#444');
-localStorage.setItem('color','light');
 }
-	
 }
-
+function togglefont(){
+const curfont = localStorage.getItem('fname') || "default";
+if(curfont != 'default'){
+const le = document.createElement('link');
+le.rel = 'stylesheet';
+le.href = 'https://fonts.googleapis.com/css2?family='+curfont+'&display=swap';
+document.head.appendChild(le);
+document.body.style.fontFamily = curfont+', sans-serif';
+}
+}
+toggletheme();
+togglefont();
 function toggle(id){
 var x = document.getElementsByClassName("show");
 for (k = 0; k < x.length; k++) {
@@ -193,6 +193,19 @@ function preloadImage(im_url) {
   }, 1);
 }
 
+function closegal(){
+document.getElementById('newgallery').outerHTML = '';
+}
+
+function galleryopen(theid){
+const jdiv = document.createElement('div');
+jdiv.id = 'newgallery';
+document.getElementsByTagName('body')[0].appendChild(jdiv);
+jdiv.innerHTML = '<span id="closegal" onclick="closegal();">Close</span>';
+document.querySelectorAll('[data-id="'+theid+'"]').forEach(el => {
+jdiv.innerHTML += '<div class="displayimg"><img src="'+el.getAttribute('data-msrc')+'"></div>';
+});
+}
 function urlpreview(urli,postjson) {
 returnpost = '';	
 	if (urli.match(/.(jpg|jpeg|png|gif)$/i))
@@ -222,7 +235,7 @@ let fakect = ' actv';
 		singleptlink = singleptlink.replace("preivew.redd", "i.redd");}
       	singletmlink =  pjmdsorted[singlept]['p']['0']['u'];
       	if(fakect == ' actv') {
-      	g_mimg  = '<img src="'+singleptlink+'" alt="main image" id="mi_'+postjson['id']+'"/>';
+      	g_mimg  = '<img src="'+singleptlink+'" alt="main image" id="mi_'+postjson['id']+'" onclick="galleryopen(\''+postjson['id']+'\')"/>';
       	}
       	g_timgs += '<img class="gtumb'+fakect+'" src="'+singletmlink+'" data-msrc="'+singleptlink+'" alt="thumbnail" data-id="'+postjson['id']+'">';
       	 preloadImage(singleptlink);

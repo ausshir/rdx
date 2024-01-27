@@ -7,12 +7,18 @@
 }
 
 html, body {
-    overflow-y:auto;
+    overflow-y: auto;
 }
 
-body{font-size:18px;font-family:segoe ui,arial,sans-serif;margin:0 auto;background:#white; background: var(--bodyc);
-color:var(--textc);
+body {
+    font-size: 18px;
+    font-family: segoe ui,arial,sans-serif;
+    margin: 0 auto;
+    background: white;
+    background: var(--bodyc);
+    color: var(--textc);
 }
+
 a{color:#444; color:var(--lightc);
 
 }
@@ -41,7 +47,7 @@ blockquote {
 
 p {margin: 0;margin-bottom: 12px;}
 
-.comment_author{font-size:14px;    overflow: hidden;}
+.comment_author{font-size:14px;    overflow: hidden;    margin-bottom: 2px;}
 .comment_text p{margin:0;padding:0;margin-bottom:5px}
 
 .comment.ccp1{border-left:2px solid #d82c2b;margin-left:15px}
@@ -95,6 +101,7 @@ a.viewmore{clear:both;display:block;text-align:right;color:#333;color:var(--ligh
 	color: #27598c;
 	color: var(--linkc);
 	word-break: break-word;
+	font-weight:600;
 }
 .post_link {
     padding: 6px 0px 8px;
@@ -104,9 +111,7 @@ a.viewmore{clear:both;display:block;text-align:right;color:#333;color:var(--ligh
     max-width: 100%;
 }
 
-.post_link a:visited {
-  /*  color: #27598c; */
-}
+
 .postc.selftext {
     word-break: break-word;
     font-size: 15px;
@@ -186,6 +191,8 @@ a.next {
     padding: 5px;
     margin: 10px;
     border-radius: 6px;
+        background: var(--linkc);
+    color: var(--bodyc);
 }
 
 div#subssearch {
@@ -351,7 +358,7 @@ div#leftbar {
     border-top: 0px;
     box-shadow: 0px 49px 30px #00000033;
     border-radius: 0px 0px 5% 5%;
-
+    
 }
 a.homelinks {
 
@@ -768,9 +775,49 @@ span#taptoopenmenu {
 .infotext p {
     font-size: 14px;
 }
+div#newgallery {
+    background: black;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    animation: popsup 0.1s linear;
+    z-index:10000;
+}
+.gallery_main img {
+    cursor: pointer;
+}
+@keyframes popsup{
+from{
+transform:translateY(30%);
+}
+to{
+transform:translateY(0%);
+}
+}
+.displayimg img {
+    max-width: 95%;
+    max-height: 100vh;
+    margin: 5px auto;
+    display: block;
+}
+
+.displayimg:first-of-type {margin-top:50px;}
+span#closegal {
+    background: var(--greyc);
+    color: var(--textc);
+    padding: 5px 10px;
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    border-radius: 10px;
+    opacity: 0.95;
+    font-size:14px;
+    cursor:pointer;
+}
 
 div#body {
     margin-top: 43px;
-}
-
 }
