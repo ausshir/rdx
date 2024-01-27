@@ -108,7 +108,7 @@ a.viewmore{clear:both;display:block;text-align:right;color:#333;color:var(--ligh
 }
 
 .postc.singleimage img {
-    max-width: 100%;
+    max-height: 240px;
 }
 
 
@@ -127,12 +127,13 @@ a.viewmore{clear:both;display:block;text-align:right;color:#333;color:var(--ligh
 
 .postc.gallery img {
     max-width: 100%;
+    max-height: 190px;
 
 }
 .gallery_thumbs {
     white-space: pre;
-   overflow-x: auto;
-    height: 100px;
+    overflow-x: hidden;
+    height: 50px;
     overflow-y: hidden;
 }
 .gtumb {
