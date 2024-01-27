@@ -1,4 +1,2 @@
 # rdx
-A lightweight mobile/web viewer for Reddit, inspired by apollo.
-Try it here -> https://rdx.overdevs.com
-![screenshots](https://github.com/avadhesh18/rdx/assets/7838916/18b4a086-2586-4d49-9c89-03f8bd09a7e7)
+A lightweight mobile/web viewer for Reddit, forked from avadhesh18/rdx mainly with a change to use a python build script and some ccs fixes for my use-case

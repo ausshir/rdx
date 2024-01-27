@@ -2,6 +2,8 @@
 
 import glob
 
+INCLUDE_INFO_TEXT=False
+
 HEAD_HTML = '''<!DOCTYPE html><html><head>
     <title>RDX for Reddit -  Apollo For Reddit Inspired Web Viewer</title>
     <meta name="description" content="rdx for reddit is a fast, lightweight mobile Web Viewer for Reddit based on Apollo. Mobile friendly reader for Reddit. Browse Reddit without Ads."/>
@@ -67,9 +69,10 @@ for file in files:
         
         data = infile.read()
         data = data.replace('<!--headhtml-->', HEAD_HTML)
-        data = data.replace('</body>', BODY_HTML)
+        if INCLUDE_INFO_TEXT:
+            data = data.replace('</body>', BODY_HTML)
 
-        if file == 'html/index.html':
+        if file == 'html/index.html' and INCLUDE_INFO_TEXT:
             data = data.replace('<!-- rdx -->', RDX_INFO_HTML)
 
     newfilename = file.replace('html/', 'public/')
