@@ -167,8 +167,7 @@ returnfpost += pollbuilder(post);
 }
 
 
-
-returnfpost += '<div class="post_meta">'+post['score']+' votes &bull; '+post['num_comments']+' comments';
+returnfpost += '<div class="post_meta">'+post['score']+' votes &bull; <a href="comments.html?url=https://www.reddit.com'+ post['permalink']+'" >'+post['num_comments']+' comments</a>';
 if (localStorage.getItem('refreshToken') !== null && window.location.href.includes('comments.html')) {
   returnfpost += ' &bull; <span onclick="replyto(\'t3_' + post['id'] + '\')">Reply</span>';
 }
@@ -210,7 +209,7 @@ jdiv.innerHTML += '<div class="displayimg"><img src="'+el.getAttribute('data-msr
 }
 function urlpreview(urli,postjson) {
 returnpost = '';	
-	if (urli.match(/.(jpg|jpeg|png|gif)$/i))
+	if (urli.match(/.(jpg|jpeg|png|gif|gifv)$/i))
 	{
 		returnpost += '<div class="postc singleimage"><img src="'+ urli +'"/></div>';
 	}
