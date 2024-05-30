@@ -62,6 +62,149 @@ document.getElementById("subssearchi").focus();
   // handle case of empty input
  // return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 //}
+
+function xmakereq(url){
+var fill = '';
+var req = new XMLHttpRequest();
+req.responseType = 'json';
+req.open('GET', url, true);
+req.onload  = function() {
+var jsonResponse = req.response;
+var titlesx = url.replace("https://www.reddit.com/r/", "");
+titlesx = titlesx.replace("/.json", "");
+document.title = titlesx;
+posts = jsonResponse['data']['children'];
+for(var item in posts) {
+console.log("xx" + item);
+pid =  posts[item]['data'];
+fill += postbuilder(pid);
+}
+fill += '<div class="navigate">';
+var curpage = window.location.href.replace(/\&after.*/,'');
+if(jsonResponse['data']['after'] != null) {
+if(curpage.indexOf("?") === -1) {curpage = curpage+'?a=b';} 
+fill += '<a class="next" href="'+curpage+'&after='+jsonResponse['data']['after']+'">Next page</a><div id="sxpy"></div><div id="sentinel"> </div>';
+nextseturl   = curpage+'&after='+jsonResponse['data']['after'];
+nexturl  = url.split('&after')[0]+"&after="+jsonResponse['data']['after'];
+}
+fill += '</div>';
+document.getElementById('body').innerHTML = fill;
+  runhsl();
+  if(curinfi == "true") {
+      observe();
+  }
+};
+req.onerror = function () {
+document.getElementById('body').innerHTML = '<center style="padding:15px;">Can\'t load content!<br><b>I know about the error of home feed and user feed not working(individual subreddits are working). Reddit is making it hard to fix but I am trying. Meanwhile I have made an iOS App(free,ad-free, fast) to get around this and will launch it in 2-3 days. You can subscribe using your email below and I will send you an email when the app is ready.</b><iframe width="340" height="305" src="https://7a945f05.sibforms.com/serve/MUIFALUnKUyQYm475r-rbc10FSp870Ra3M3xoAR8XhhH5n1peSVzsoaHNqfh1r8UUqRbVjg_fljGuixCyVnGnCo3dQDsIrAat_5vYvjlI25DzLl6VEwr2SCM9GzniHmLjV7VpsHzaO0F26IGQPRIThB4OimW0sdaN9Eq8cTYV79Abo2j1HHLb-77KQkDzWtHHMdmSKbUXcOEd9Pa" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe><small>There can be multiple reasons for this, your browser\'s aggresive privacy settings may be blocking the one call to reddit.com RDX makes. This happens usually when you use a VPM/Proxy and/or a privacy focused browser like Firefox.<br> Play around with privacy/tracking options or change your browser. If it still doesn\'t work click the feedback link and send me some info.</small></center>';
+};
+req.send(null);
+}
+async function makereq(url) {
+  try {
+    let response = await fetch(url, { redirect: 'follow' });
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+
+    let jsonResponse = await response.json();
+    let fill = '';
+    let titlesx = url.replace("https://www.reddit.com/r/", "");
+    titlesx = titlesx.replace("/.json", "");
+    document.title = titlesx;
+
+    let posts = jsonResponse['data']['children'];
+    for (let item of posts) {
+      console.log("xx" + item);
+      let pid = item['data'];
+      fill += postbuilder(pid);
+    }
+
+    fill += '<div class="navigate">';
+    let curpage = window.location.href.replace(/\&after.*/, '');
+    if (jsonResponse['data']['after'] != null) {
+      if (curpage.indexOf("?") === -1) {
+        curpage = curpage + '?a=b';
+      }
+      fill += '<a class="next" href="' + curpage + '&after=' + jsonResponse['data']['after'] + '">Next page</a><div id="sxpy"></div><div id="sentinel"> </div>';
+      let nextseturl = curpage + '&after=' + jsonResponse['data']['after'];
+      let nexturl = url.split('&after')[0] + "&after=" + jsonResponse['data']['after'];
+    }
+    fill += '</div>';
+    document.getElementById('body').innerHTML = fill;
+
+    runhsl();
+    if (curinfi == "true") {
+      observe();
+    }
+  } catch (error) {
+    document.getElementById('body').innerHTML = `<center style="padding:15px;">Can't load content!<br><b>I know about the error of home feed and user feed not working(individual subreddits are working). Reddit is making it hard to fix but I am trying. Meanwhile I have made an iOS App(free,ad-free, fast) to get around this and will launch it in 2-3 days. You can subscribe using your email below and I will send you an email when the app is ready.</b><iframe width="340" height="305" src="https://7a945f05.sibforms.com/serve/MUIFALUnKUyQYm475r-rbc10FSp870Ra3M3xoAR8XhhH5n1peSVzsoaHNqfh1r8UUqRbVjg_fljGuixCyVnGnCo3dQDsIrAat_5vYvjlI25DzLl6VEwr2SCM9GzniHmLjV7VpsHzaO0F26IGQPRIThB4OimW0sdaN9Eq8cTYV79Abo2j1HHLb-77KQkDzWtHHMdmSKbUXcOEd9Pa" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe><small>There can be multiple reasons for this, your browser's aggressive privacy settings may be blocking the one call to reddit.com RDX makes. This happens usually when you use a VPN/Proxy and/or a privacy focused browser like Firefox.<br> Play around with privacy/tracking options or change your browser. If it still doesn't work click the feedback link and send me some info.</small></center>`;
+  }
+}
+
+function scorllmore() {
+const url = nexturl;
+let fill = '';
+if(nexturl != '') {console.log(nexturl); } else {return false;}
+var req = new XMLHttpRequest();
+req.responseType = 'json';
+req.open('GET', url, true);
+req.onload  = function() {
+var jsonResponse = req.response;
+posts = jsonResponse['data']['children'];
+for(var item in posts) {
+pid =  posts[item]['data'];
+fill += postbuilder(pid);
+}
+var curpage = window.location.href.replace(/\&after.*/,'');
+if(jsonResponse['data']['after'] != null) {
+if(curpage.indexOf("?") === -1) {curpage = curpage+'?a=b';} 
+history.pushState("", "newtitle", nextseturl);
+nextseturl   = curpage+'&after='+jsonResponse['data']['after'];
+nexturl = url.split('&after')[0];
+nexturl  = nexturl+"&after="+jsonResponse['data']['after'];
+}
+else {
+nexturl = '';
+}
+document.getElementById('sxpy').insertAdjacentHTML('beforeend',fill);
+document.getElementById('sentinel').innerHTML = ' ';
+  runhsl();
+};
+req.onerror = function () {
+document.getElementById('sxpy').innerHTML += '<center style="padding:15px;">Can\'t load content! Refresh the page or try again later.</center>';
+nexturl = '';
+};
+req.send(null);
+}
+
+function observe() {
+const options = {
+        root: null,
+        threshold: 1.0 
+    };
+cantload = false;
+    function callback(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if(cantload == false) {
+                    document.getElementById('sentinel').innerHTML = '<center>Loading more posts..</center>';
+                cantload = true;
+                setTimeout(() => {
+               scorllmore();
+               cantload  = false;
+                }, 100);
+                }
+            }
+        });
+    }
+    const observer = new IntersectionObserver(callback, options);
+    const sentinel = document.getElementById('sentinel');
+    if (sentinel) {
+        observer.observe(sentinel);
+    } 
+}
+
+
 function htmlDecode(input) {
   var parser = new DOMParser();
   var decoded = parser.parseFromString(input, 'text/html');
