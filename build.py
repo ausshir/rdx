@@ -42,7 +42,7 @@ HEAD_HTML = '''<!DOCTYPE html><html><head>
     <div id="body"></div>
     <script src="functions.js">
     <script src="https://cdn.jsdelivr.net/npm/ios-pwa-splash@1.0.0/cdn.min.js"></script>
-<script>iosPWASplash(\'5122.png\', \'#4e2a72\');</script>'''
+'''
 
 BODY_HTML = '''<div class="footer"><div id="popitup" style="display:none;"> 
   <span onclick="document.getElementById(\'popitup\').style.display=\'none\'">Cancel</span>
