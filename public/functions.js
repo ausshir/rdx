@@ -1,7 +1,7 @@
 var bmr = '';
 // Utility functions [UNIVERSAL]
 
-
+var nexturl = ''; var nextseturl = '';
 if(JSON.parse(localStorage.getItem("subs")) !== null){
 subslisted = ''; subslistedarray = JSON.parse(localStorage.getItem("subs")); 
   subslistedarray.sort(function(a, b) {
@@ -41,8 +41,19 @@ document.head.appendChild(le);
 document.body.style.fontFamily = curfont+', sans-serif';
 }
 }
+
+var curinfi = localStorage.getItem('curinfi') || false;
+if (window.location.href.indexOf("comments.html") == -1)
+{
+if(curinfi == "true") {
+var style = document.createElement('style');
+style.innerHTML = '.footer, .infotext, .next {display:none !important}';
+document.head.appendChild(style);
+}
+}
 toggletheme();
 togglefont();
+
 function toggle(id){
 var x = document.getElementsByClassName("show");
 for (k = 0; k < x.length; k++) {
@@ -89,13 +100,15 @@ nexturl  = url.split('&after')[0]+"&after="+jsonResponse['data']['after'];
 }
 fill += '</div>';
 document.getElementById('body').innerHTML = fill;
+  document.getElementById('body').insertAdjacentHTML("afterbegin",'<div id="rdxapp" style="display:none;">rdx iPhone app is here <a class="dlbtnapp" href="https://apps.apple.com/us/app/rdx-for-reddit/id6503479190">Install</a> <span class="axeit" onclick="exit();">X</span></div>');
   runhsl();
   if(curinfi == "true") {
       observe();
   }
+
 };
 req.onerror = function () {
-document.getElementById('body').innerHTML = '<center style="padding:15px;">Can\'t load content!<br></center>';
+document.getElementById('body').innerHTML = '<center style="padding:15px;">Can\'t load content!<br><b>I know about the error of home feed and user feed not working(individual subreddits are working). Reddit is making it hard to fix but I am trying. Meanwhile I have made an iOS App(free,ad-free, fast) to get around this and will launch it in 2-3 days. You can subscribe using your email below and I will send you an email when the app is ready.</b><iframe width="340" height="305" src="https://7a945f05.sibforms.com/serve/MUIFALUnKUyQYm475r-rbc10FSp870Ra3M3xoAR8XhhH5n1peSVzsoaHNqfh1r8UUqRbVjg_fljGuixCyVnGnCo3dQDsIrAat_5vYvjlI25DzLl6VEwr2SCM9GzniHmLjV7VpsHzaO0F26IGQPRIThB4OimW0sdaN9Eq8cTYV79Abo2j1HHLb-77KQkDzWtHHMdmSKbUXcOEd9Pa" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe><small>There can be multiple reasons for this, your browser\'s aggresive privacy settings may be blocking the one call to reddit.com RDX makes. This happens usually when you use a VPM/Proxy and/or a privacy focused browser like Firefox.<br> Play around with privacy/tracking options or change your browser. If it still doesn\'t work click the feedback link and send me some info.</small></center>';
 };
 req.send(null);
 }
@@ -136,8 +149,10 @@ async function makereq(url) {
     if (curinfi == "true") {
       observe();
     }
+ 
+
   } catch (error) {
-    document.getElementById('body').innerHTML = `<center style="padding:15px;">Can't load content!<br></center>`;
+    document.getElementById('body').innerHTML = `<center style="padding:15px;">Can't load content!<br><b>I know about the error of home feed and user feed not working(individual subreddits are working). Reddit is making it hard to fix but I am trying. Meanwhile I have made an iOS App(free,ad-free, fast) to get around this and will launch it in 2-3 days. You can subscribe using your email below and I will send you an email when the app is ready.</b><iframe width="340" height="305" src="https://7a945f05.sibforms.com/serve/MUIFALUnKUyQYm475r-rbc10FSp870Ra3M3xoAR8XhhH5n1peSVzsoaHNqfh1r8UUqRbVjg_fljGuixCyVnGnCo3dQDsIrAat_5vYvjlI25DzLl6VEwr2SCM9GzniHmLjV7VpsHzaO0F26IGQPRIThB4OimW0sdaN9Eq8cTYV79Abo2j1HHLb-77KQkDzWtHHMdmSKbUXcOEd9Pa" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe><small>There can be multiple reasons for this, your browser's aggressive privacy settings may be blocking the one call to reddit.com RDX makes. This happens usually when you use a VPN/Proxy and/or a privacy focused browser like Firefox.<br> Play around with privacy/tracking options or change your browser. If it still doesn't work click the feedback link and send me some info.</small></center>`;
   }
 }
 
@@ -176,8 +191,17 @@ nexturl = '';
 };
 req.send(null);
 }
+function axit(){
+        localStorage.setItem('appshown', 'yes');
+document.getElementById('rdxapp').style.display = 'none';
+}
+
 
 function observe() {
+    if (localStorage.getItem('appshown') !== 'yes') {
+
+     document.getElementById('body').insertAdjacentHTML("afterbegin",'<div id="rdxapp" >rdx iPhone app is here <a class="dlbtnapp" href="https://apps.apple.com/us/app/rdx-for-reddit/id6503479190">Install</a> <span class="axeit" onclick="axit();">X</span></div>');
+     }
 const options = {
         root: null,
         threshold: 1.0 
@@ -243,7 +267,7 @@ xhr.onreadystatechange = function()
 		fillsubs = '';
 		for (var singlesub in subslist['subreddits'] )   
 {
-console.log(subslist[singlesub]);
+//console.log(subslist[singlesub]);
 fillsubs += '<a href="subreddit.html?r=' + subslist['subreddits'][singlesub]['name']+'">'+subslist['subreddits'][singlesub]['name']+'</a>';
 }
 document.getElementById('subslist').innerHTML = fillsubs;
@@ -280,6 +304,10 @@ function replaceRedditLinks(htmlContent) {
 
 function postbuilder(post){
 returnfpost = '';
+ let mode = localStorage.getItem('curmode') || "original";
+if (window.location.href.indexOf("comments.html") != -1) {
+ mode = "original";
+}
 timeagoed = timeago(post['created_utc']*1000);
 sticky = post['stickied'] ? " sticky" :" ";
 over18 = '';
@@ -287,7 +315,29 @@ if(checklc('a18','yes') != true) {
 over18 = post['over_18'] ? "over18" :" ";
 }
 ismod = (post['distinguished'] == "moderator") ? " moderator" :" ";
-returnfpost +=  '<div class="post" id="'+post['id']+'"><div class="post_author"><a href="subreddit.html?r='+post["subreddit"]+'">'+post["subreddit_name_prefixed"]+'</a> &bull;  <a href="user.html?u='+post["author"]+'">'+post["author"]+'</a>  &bull; '+timeagoed+'</div><div class="post_link'+ sticky+' '+ismod+'"><a href="comments.html?url=https://www.reddit.com'+ post['permalink']+'">'+post['title']+'</a></div>';
+returnfpost +=  '<div class="post '+mode+'" id="'+post['id']+'">';
+if(mode == "comp") {
+thumbnail = post['thumbnail'];
+if(thumbnail != "self" && thumbnail != "spoiler" && thumbnail != "default" && thumbnail != ""  && thumbnail != "nsfw") {
+if(thumbnail == "image") {
+thumbnail = post["preview"]['images'][0]['resolutions'][0]['url'];
+}
+returnfpost +=  '<div class="compthumb"><img src="'+thumbnail+'" alt="thumbnail"/></div><div class="rop">';
+} else {
+thumbnail = thumbnail || "&bull;"; 
+	  const  mx = post?.preview?.images?.[0]?.resolutions?.[0]?.url || "none";
+if(mx != "none") {
+returnfpost +=  '<div class="compthumb"><img src="'+mx+'" alt="thumbnail"/></div><div class="rop">';
+
+}
+else {
+returnfpost += '<div class="comptext">'+thumbnail+'</div><div class="rop">';
+}
+}
+}
+returnfpost +=  '<div class="post_author"><a href="subreddit.html?r='+post["subreddit"]+'">'+post["subreddit_name_prefixed"]+'</a> &bull;  <a href="user.html?u='+post["author"]+'">'+post["author"]+'</a>  &bull; '+timeagoed+'</div><div class="post_link'+ sticky+' '+ismod+'"><a href="comments.html?url=https://www.reddit.com'+ post['permalink']+'">'+post['title']+'</a></div>';
+
+if(mode != "comp") {
 if(post["selftext_html"] != null){
 var replacedText = replaceRedditLinks(post["selftext_html"]);
 
@@ -303,9 +353,13 @@ returnfpost += postbuilder(post['crosspost_parent_list'][0]);
 }
 else {
 if(over18 === 'over18') {returnfpost += '<button onclick="allown_sfw()" class="sfwtoggle">Click to Allow this content</button>';}
-if(typeof urli != "undefined"){  returnfpost += '<div class="urlpreview '+over18+'">'+urlpreview(urli,post)+'</div><div style="text-align: right;font-size:12px;"><a href="'+post['url']+'"><small>Open URL</small></a></div>'; }
+if(typeof urli != "undefined" && post['removed_by_category'] == null){  returnfpost += '<div class="urlpreview '+over18+'">'+urlpreview(urli,post)+'</div><div style="text-align: right;font-size:12px;"><a href="'+post['url']+'"><small>Open URL</small></a></div>'; }
+if(post['removed_by_category'] != null) {
+returnfpost += 'Removed by '+ post['removed_by_category'];
+}
 if(post['poll_data'] != null){
 returnfpost += pollbuilder(post);
+}
 }
 }
 
@@ -314,7 +368,12 @@ returnfpost += '<div class="post_meta">'+post['score']+' votes &bull; <a href="c
 if (localStorage.getItem('refreshToken') !== null && window.location.href.includes('comments.html')) {
   returnfpost += ' &bull; <span onclick="replyto(\'t3_' + post['id'] + '\')">Reply</span>';
 }
-returnfpost += '</div></div>';
+returnfpost += '</div>';
+if(mode == "comp") {
+returnfpost += '</div>';
+}
+
+returnfpost += '</div>';
 return returnfpost;
 }
 function allown_sfw(){
@@ -322,16 +381,10 @@ function allown_sfw(){
 	window.location.reload();
 }
 function preloadImage(im_url) {
-  // Create a div element to contain the image tag
   let container = document.createElement('div');
-
-  // Set the innerHTML of the container with the image tag
   container.innerHTML = `<img src="${im_url}" />`;
 
-  // Append the container to the document body to trigger loading
   document.body.appendChild(container);
-
-  // Remove the container after a short delay (you can adjust the delay as needed)
   setTimeout(function() {
     document.body.removeChild(container);
   }, 1);
@@ -352,9 +405,28 @@ jdiv.innerHTML += '<div class="displayimg"><img src="'+el.getAttribute('data-msr
 }
 function urlpreview(urli,postjson) {
 returnpost = '';	
-	if (urli.match(/.(jpg|jpeg|png|gif|gifv)$/i))
+	if (urli.match(/.(jpg|jpeg|png)$/i))
 	{
 		returnpost += '<div class="postc singleimage"><img src="'+ urli +'"/></div>';
+	}
+	else if (urli.match(/.(gif)$/i)){
+	  const  x = postjson?.preview?.images?.[0]?.variants?.mp4?.source?.url || "none";
+if(x == "none") {
+		returnpost += '<div class="postc singleimage"><img src="'+ urli +'"/></div>';
+
+}
+else {
+	vidposter = postjson["preview"];
+		if(typeof vidposter == "undefined"){
+			vidposter = postjson["thumbnail"];
+		}
+		else {
+			
+			vidposter = postjson["preview"]["images"]["0"]["source"]["url"];
+		}
+		returnpost += '<div class="postc video"><video src="'+ x +'#t=0.001" poster="'+vidposter+'" width="100%" height="240" preload="metadata" controls></video></div>';
+
+}
 	}
 	else if (urli.match(/www.reddit.com\/gallery/g))
 	{
@@ -362,13 +434,14 @@ returnpost = '';
 	pjmd = postjson['media_metadata'];
 	pjgd= postjson['gallery_data'];
 	const pjmdsorted = {};
-
+if(pjgd) {
 pjgd.items.forEach((item, index) => {
   const mediaId = item.media_id;
   if (pjmd.hasOwnProperty(mediaId)) {
     pjmdsorted[mediaId] = pjmd[mediaId];
   }
 });
+}
 let g_timgs = '<div class="gallery_thumbs">';
 let fakect = ' actv';
 	for(var singlept in pjmdsorted) {
@@ -402,6 +475,12 @@ let fakect = ' actv';
 		vidurl =  postjson['secure_media']['reddit_video']['dash_url']; 
 		hlsurl =  postjson['secure_media']['reddit_video']['hls_url']; 
 		fallbackurl = postjson['secure_media']['reddit_video']['fallback_url']; 
+		const wiurl  = postjson['secure_media']['reddit_video']['width']+"px";
+		const heurl = postjson['secure_media']['reddit_video']['height']+"px";
+		if(typeof wiurl != "undefined"){
+		    const wiurl = "100%";
+		    const heurl = "240px";
+		   }
 		//returnpost +='<video id="v'+postjson['id']+'" src="'+vidurl+'" poster="'+postjson["thumbnail"]+'" width="100%" height="240" preload="metadata" onplay="playaud(\'a'+postjson['id']+'\')"  onpause="pauseaud(\'a'+postjson['id']+'\')"  onseeking="pauseaud(\'a'+postjson['id']+'\')"  onseeked="seeked(\''+postjson['id']+'\')"   controls> </video><audio src="'+urli+'/DASH_audio.mp4" id="a'+postjson['id']+'" controls></audio>	';
 		vidposter = postjson["preview"];
 		if(typeof vidposter == "undefined"){
@@ -411,7 +490,7 @@ let fakect = ' actv';
 			
 			vidposter = postjson["preview"]["images"]["0"]["source"]["url"];
 		}
-		returnpost +='<video id="v'+postjson['id']+'" src="'+vidurl+'#t=0.001" data-fallback="'+fallbackurl+'" data-hls="'+hlsurl+'" poster="'+vidposter+'" width="100%" height="240" preload="metadata" class="reddit_hls"  controls> </video>';
+		returnpost +='<video id="v'+postjson['id']+'" src="'+vidurl+'#t=0.001" data-fallback="'+fallbackurl+'" data-hls="'+hlsurl+'" poster="'+vidposter+'" width="100%" height="300" preload="metadata" class="reddit_hls" style="max-width:100%;"  controls> </video>';
 		}
 		else {returnpost += 'crosspost';}
 	returnpost += '</div>';
@@ -419,6 +498,7 @@ let fakect = ' actv';
 	else if (urli.match(/redgifs/g) && postjson.preview)
 	{
 	returnpost += '<div class="postc video">';
+	if(postjson['secure_media']) {
 	vidurl = postjson['secure_media']['oembed']['thumbnail_url']; 
 	if(typeof vidurl == "undefined"){
 		vidurl = urli.replace("redgifs.com/watch/", "redgifs.com/ifr/");
@@ -435,6 +515,7 @@ let fakect = ' actv';
 		vidurl = vidurl.replace("size_restricted.gif", "mobile.mp4")
 		
 		returnpost +='<video src="'+vidurl+'#t=0.001" poster="'+postjson["preview"]["images"]["0"]["source"]["url"]+'" width="100%" height="240" preload="metadata" controls> </video>';
+	}
 	}
 	returnpost += '</div>';
 	}
@@ -533,11 +614,12 @@ cret += '</div>';
 return cret;
 }
 function runhsl(){
- const videos = document.querySelectorAll('.reddit_hls');
+ const videos = document.querySelectorAll('.reddit_hls:not(.goner)');
                 
 
         videos.forEach(video => {
         	const videoContainer = video.parentElement;
+        	video.classList.add('goner');
           //  if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 // Browser natively supports HLS
            //     video.src = video.src;

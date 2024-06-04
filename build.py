@@ -28,26 +28,25 @@ HEAD_HTML = '''<!DOCTYPE html><html><head>
     <div id="menus">
         <div id="subssearch" class="hidden">
             <input type="text" id="subssearchi" name="qury" onkeyup="searchsubs(this.value,event)" autocomplete="off">
-            <div id="subslist"></div>
+            <div id="subslist"></div> 
         </div>
         <div id="leftbar" class="hidden">
             <div class="list">
                 <a href="index.html" class="homelinks halfit">Home</a><a onClick="window.location.reload()" class="homelinks halfit">Refresh</a><a href="saved.html" class="homelinks halfit">Saved</a><a href="subreddit.html?r=popular" class="homelinks halfit">Popular</a>
-                <div id="subscribed">Subscribe to subreddits to view them here.</div>        <div id="cthemew"><a href="themes.html" id="themebtn">Change Theme</a> | <a href="settings.html">Settings</a> | <a href="https://www.buymeacoffee.com/overdevsapps" rel="nofollow">Support RDX</a>
+                <div id="subscribed">Subscribe to subreddits to view them here.</div>
+                
               </div></div>
         </div>
         <div id="rightbar" class="hidden"></div>
     </div>
     </header>
-    <div id="body"></div>
-    <script src="functions.js">
+    <div id="body">
+    </div>
+    <script src="functions.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ios-pwa-splash@1.0.0/cdn.min.js"></script>
-'''
+<script>iosPWASplash(\'5122.png\', \'#4e2a72\');</script> '''
 
-BODY_HTML = '''<div class="footer"><div id="popitup" style="display:none;"> 
-  <span onclick="document.getElementById(\'popitup\').style.display=\'none\'">Cancel</span>
-  <div id="helptext"></div><textarea class="cmntarea" id="commentText" placeholder="Write a reply!" required></textarea>      
-<input id="cmtid" value="" type="hidden"/> <input id="actype" value="" type="hidden"/> <button id="cmntbtn" onclick="apiAction();">Submit</button>    
+BODY_HTML = '''<div class="footer">
 </div> <!-- rdx --></body>'''
 
 RDX_INFO_HTML = '''<div class="infotext">
@@ -77,4 +76,3 @@ for file in files:
     with open(newfilename, 'w') as outfile:
         print(f"Writing to {newfilename}")
         outfile.write(data)
-

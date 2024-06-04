@@ -29,7 +29,8 @@ padding:10px;margin-bottom:5px;    word-break: break-word;position:relative;}
 h1 {
     margin: 6px 0px;
     padding: 0;
-    font-size: 1.5em;
+    font-size: 1.3em;
+    line-height: normal;
 }
 
 h2 {
@@ -108,6 +109,7 @@ a.viewmore{clear:both;display:block;text-align:right;color:#333;color:var(--ligh
 }
 
 .postc.singleimage img {
+    max-width: 100%;
     max-height: 240px;
 }
 
@@ -808,17 +810,104 @@ transform:translateY(0%);
 .displayimg:first-of-type {margin-top:50px;}
 span#closegal {
     background: var(--greyc);
-    color: var(--textc);
-    padding: 5px 10px;
-    position: fixed;
-    top: 5px;
-    right: 5px;
-    border-radius: 10px;
-    opacity: 0.95;
-    font-size:14px;
-    cursor:pointer;
+  color: var(--textc);
+  padding: 5px 10px;
+  position: fixed;
+  top: 5px;
+  right: 0;
+  border-radius: 10px;
+  opacity: 0.95;
+  font-size: 14px;
+  cursor: pointer;
+  left: 0;
+  width: 50px;
+  text-align: center;
+  opacity: 0.6;
+  margin: 0 auto;
+  backdrop-filter: blur(47px);
+}
+.post.comp {overflow: hidden;clear: both;}
+
+.compthumb,.comptext {
+  width: 80px;
+  overflow: hidden;
+  margin-right: 10px;
+  display: inline-table;
+  text-align:center;
+}
+span.authorttext.isop:after {
+  content: "OP";
+  margin-left: 5px;
+  background: var(--lightc);
+  color: var(--greyc);
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-size: 11px;
+}
+.rop {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 90px);
+}
+
+.compthumb img {
+  max-width: 80px;
+  max-height: 80px;
+}
+
+
+.rop .post_author {
+  white-space: normal;
+}
+
+
+
+.rop  .post_link a {
+  font-size: 16px;
+}
+
+.rop  .post_link {
+  padding: 2px 0px 0px;
+}
+.comptext {
+  height: 20px;
+  text-align: center;
+  color: var(--greyc);
+  margin-top: 20px;
+}
+@media all and (display-mode: standalone) {
+header#header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index:1000;
 }
 
 div#body {
-    margin-top: 43px;
+  margin-top: 43px;
+}
+
+}
+div#rdxapp {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--greyc);
+  align-items: center;
+}
+
+div#rdxapp {}
+
+a.dlbtnapp {
+  border: 1px solid var(--linkc);
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+span.axeit {
+  font-family: monospace;
+  padding: 0px 5px;
+  color: var(--linkc);
 }
