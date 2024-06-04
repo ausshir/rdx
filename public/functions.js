@@ -100,7 +100,6 @@ nexturl  = url.split('&after')[0]+"&after="+jsonResponse['data']['after'];
 }
 fill += '</div>';
 document.getElementById('body').innerHTML = fill;
-  document.getElementById('body').insertAdjacentHTML("afterbegin",'<div id="rdxapp" style="display:none;">rdx iPhone app is here <a class="dlbtnapp" href="https://apps.apple.com/us/app/rdx-for-reddit/id6503479190">Install</a> <span class="axeit" onclick="exit();">X</span></div>');
   runhsl();
   if(curinfi == "true") {
       observe();
@@ -198,10 +197,6 @@ document.getElementById('rdxapp').style.display = 'none';
 
 
 function observe() {
-    if (localStorage.getItem('appshown') !== 'yes') {
-
-     document.getElementById('body').insertAdjacentHTML("afterbegin",'<div id="rdxapp" >rdx iPhone app is here <a class="dlbtnapp" href="https://apps.apple.com/us/app/rdx-for-reddit/id6503479190">Install</a> <span class="axeit" onclick="axit();">X</span></div>');
-     }
 const options = {
         root: null,
         threshold: 1.0 
