@@ -32,7 +32,7 @@ HEAD_HTML = '''<!DOCTYPE html><html><head>
         </div>
         <div id="leftbar" class="hidden">
             <div class="list">
-                <a href="index.html" class="homelinks halfit">Home</a><a onClick="window.location.reload()" class="homelinks halfit">Refresh</a><a href="saved.html" class="homelinks halfit">Saved</a><a href="subreddit.html?r=popular" class="homelinks halfit">Popular</a>
+                <a href="index.html" class="homelinks halfit">Home</a><a href="settings.html" class="homelinks halfit">Settings</a><a href="saved.html" class="homelinks halfit">Saved</a><a href="subreddit.html?r=popular" class="homelinks halfit">Popular</a>
                 <div id="subscribed">Subscribe to subreddits to view them here.</div>
                 
               </div></div>
